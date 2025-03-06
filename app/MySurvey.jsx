@@ -5,14 +5,18 @@ import { Survey } from "survey-react-ui";
 import "survey-core/defaultV2.min.css";
 
 export default function MySurvey() {
-    const [scenarioIndex, setScenarioIndex] = useState(0);
-    const [choices, setChoices] = useState(generateChoices());
-
     const scenarios = [
         "Scenario 1: What would you do in this situation?",
         "Scenario 2: How would you handle this?",
+        "Scenario 3: what about this?",
+        "Scenario 4: and how about this?",
         // Add more scenarios as needed
     ];
+
+    const [scenarioIndex, setScenarioIndex] = useState(0);
+    const [scenarioChoices, setScenarioChoices] = useState(() => {
+        return scenarios.map(() => generateChoices());
+    });
 
     function generateChoices() {
         // Generate random choices for the scenario
@@ -27,23 +31,37 @@ export default function MySurvey() {
         return possibleChoices.sort(() => 0.5 - Math.random()).slice(0, 4); // Randomly select 4 choices
     }
 
+    // Create survey elements for all scenarios
+    const createSurveyElements = () => {
+        const elements = [];
+
+        scenarios.forEach((scenario, index) => {
+            // Add checkbox question
+            elements.push({
+                type: "checkbox",
+                name: `scenarioResponse${index}`,
+                title: scenario,
+                choices: scenarioChoices[index],
+            });
+
+            // Add refresh button for this scenario
+            elements.push({
+                type: "html",
+                name: `refreshButton${index}`,
+                html: `<button id="refreshButton${index}" class="refresh-button">Refresh Choices for Scenario ${
+                    index + 1
+                }</button>`,
+            });
+        });
+
+        return elements;
+    };
+
     const surveyJson = {
         pages: [
             {
                 name: "scenarioPage",
-                elements: [
-                    {
-                        type: "checkbox",
-                        name: "scenarioResponse",
-                        title: scenarios[scenarioIndex],
-                        choices: choices,
-                    },
-                    {
-                        type: "html",
-                        name: "refreshButton",
-                        html: `<button id="refreshButton" class="refresh-button">Refresh Choices</button>`,
-                    },
-                ],
+                elements: createSurveyElements(),
             },
         ],
     };
@@ -57,14 +75,22 @@ export default function MySurvey() {
     });
 
     surveyModel.onAfterRenderPage.add((sender, options) => {
-        const refreshButton = document.getElementById("refreshButton");
-        if (refreshButton) {
-            refreshButton.onclick = () => {
-                setChoices(generateChoices());
-                surveyModel.setValue("scenarioResponse", []); // Clear previous selections
-                surveyModel.render(); // Re-render the survey to reflect new choices
-            };
-        }
+        scenarios.forEach((scenario, index) => {
+            const refreshButton = document.getElementById(
+                `refreshButton${index}`
+            );
+            if (refreshButton) {
+                refreshButton.onclick = () => {
+                    // Update only the choices for this specific scenario
+                    const newChoices = [...scenarioChoices];
+                    newChoices[index] = generateChoices();
+                    setScenarioChoices(newChoices);
+
+                    // Clear previous selections for this scenario
+                    surveyModel.setValue(`scenarioResponse${index}`, []);
+                };
+            }
+        });
     });
 
     return <Survey model={surveyModel} />;
