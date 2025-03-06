@@ -66,19 +66,24 @@ export default function MySurvey() {
         scenarios.forEach((scenario, index) => {
             // Add checkbox question
             elements.push({
-                type: "checkbox",
+                type: "panel",
                 name: `scenarioResponse${index}`,
-                title: scenario,
-                choices: scenarioChoices[index],
-            });
-
-            // Add refresh button for this scenario
-            elements.push({
-                type: "html",
-                name: `refreshButton${index}`,
-                html: `<button id="refreshButton${index}" class="refresh-button">Refresh Choices for Scenario ${
-                    index + 1
-                }</button>`,
+                elements: [
+                    {
+                        type: "checkbox",
+                        name: `scenarioResponse${index}`,
+                        title: scenario,
+                        choices: scenarioChoices[index],
+                    },
+                    // Add refresh button for this scenario
+                    {
+                        type: "html",
+                        name: `refreshButton${index}`,
+                        html: `<button id="refreshButton${index}" class="refresh-button">Refresh Choices for Scenario ${
+                            index + 1
+                        }</button>`,
+                    },
+                ],
             });
         });
 
