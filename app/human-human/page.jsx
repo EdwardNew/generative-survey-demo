@@ -1,11 +1,9 @@
-import Survey from "../MySurvey";
-import { retailStoreQuestions } from "../scenarios";
+import SurveyComponent from "../human-human/Survey";
 
-export default function Page() {
+export default function SurveyPage() {
     return (
-        <>
-            <h1>This is human-human</h1>
-            <Survey Scenario={retailStoreQuestions} />
-        </>
+        <div>
+            <SurveyComponent />
+        </div>
     );
 }

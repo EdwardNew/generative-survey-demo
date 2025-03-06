@@ -13,7 +13,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-    title: "Generative Survey",
+    title: "Generative Survey Demo",
     description: "",
 };
 
