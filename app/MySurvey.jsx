@@ -13,22 +13,50 @@ export default function MySurvey() {
         // Add more scenarios as needed
     ];
 
-    const [scenarioIndex, setScenarioIndex] = useState(0);
+    const scenarioPossibleChoices = [
+        [
+            "Scenario 1 - Choice A",
+            "Scenario 1 - Choice B",
+            "Scenario 1 - Choice C",
+            "Scenario 1 - Choice D",
+            "Scenario 1 - Choice E",
+            "Scenario 1 - Choice F",
+        ],
+        [
+            "Scenario 2 - Choice A",
+            "Scenario 2 - Choice B",
+            "Scenario 2 - Choice C",
+            "Scenario 2 - Choice D",
+            "Scenario 2 - Choice E",
+        ],
+        [
+            "Scenario 3 - Choice A",
+            "Scenario 3 - Choice B",
+            "Scenario 3 - Choice C",
+            "Scenario 3 - Choice D",
+            "Scenario 3 - Choice E",
+            "Scenario 3 - Choice F",
+            "Scenario 3 - Choice G",
+        ],
+        [
+            "Scenario 4 - Choice A",
+            "Scenario 4 - Choice B",
+            "Scenario 4 - Choice C",
+            "Scenario 4 - Choice D",
+        ],
+    ];
+
     const [scenarioChoices, setScenarioChoices] = useState(() => {
-        return scenarios.map(() => generateChoices());
+        return scenarios.map((_, index) => generateChoices(index));
     });
 
-    function generateChoices() {
-        // Generate random choices for the scenario
-        const possibleChoices = [
-            "Choice A",
-            "Choice B",
-            "Choice C",
-            "Choice D",
-            "Choice E",
-            "Choice F",
-        ];
-        return possibleChoices.sort(() => 0.5 - Math.random()).slice(0, 4); // Randomly select 4 choices
+    function generateChoices(scenarioIndex) {
+        const possibleChoices = scenarioPossibleChoices[scenarioIndex];
+        // Randomly select up to 4 choices (or fewer if not enough choices available)
+        const numChoicesToSelect = Math.min(4, possibleChoices.length);
+        return possibleChoices
+            .sort(() => 0.5 - Math.random())
+            .slice(0, numChoicesToSelect);
     }
 
     // Create survey elements for all scenarios
@@ -83,7 +111,7 @@ export default function MySurvey() {
                 refreshButton.onclick = () => {
                     // Update only the choices for this specific scenario
                     const newChoices = [...scenarioChoices];
-                    newChoices[index] = generateChoices();
+                    newChoices[index] = generateChoices(index);
                     setScenarioChoices(newChoices);
 
                     // Clear previous selections for this scenario
