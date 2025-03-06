@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 export async function POST(request) {
     try {
-        const { scenario } = await request.json();
+        const { scenario, numChoices } = await request.json();
 
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
@@ -18,10 +18,10 @@ export async function POST(request) {
                 },
                 {
                     role: "user",
-                    content: `For the following scenario, generate 4 possible responses in a JSON format. The JSON should have a key "choices" that contains an array of 4 strings, where each string is a possible response to the scenario. Do not include any additional text or explanations.\n\nExample output:\n{\n  "choices": [\n    "Response 1",\n    "Response 2",\n    "Response 3",\n    "Response 4"\n  ]\n}\n\nScenario: ${scenario}`,
+                    content: `For the following scenario, generate ${numChoices} possible responses in a JSON format. The JSON should have a key "choices" that contains an array of ${numChoices} strings, where each string is a possible response to the scenario. Do not include any additional text or explanations.\n\nExample output:\n{\n  "choices": [\n    "Response 1",\n    "Response 2",\n    "Response 3",\n    "Response 4"\n  ]\n}\n\nScenario: ${scenario}`,
                 },
             ],
-            max_tokens: 150,
+            max_tokens: 500, // Increase max_tokens to accommodate more choices
         });
 
         const responseText = completion.choices[0].message.content;
