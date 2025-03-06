@@ -1,6 +1,10 @@
-import Survey from "./Survey";
-import { retailStoreQuestions } from "./scenarios";
+import MySurvey from "./MySurvey";
 
-export default function Home() {
-    return <Survey Scenario={retailStoreQuestions} />;
+export default function SurveyPage() {
+    return (
+        <div>
+            <h1>Survey</h1>
+            <MySurvey />
+        </div>
+    );
 }

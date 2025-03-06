@@ -1,4 +1,4 @@
-import Survey from "../Survey";
+import Survey from "../MySurvey";
 import { retailStoreQuestions } from "../scenarios";
 
 export default function Page() {
