@@ -1,9 +1,9 @@
-import SurveyComponent from "../human-human/Survey";
+import MySurvey from "./MySurvey";
 
 export default function SurveyPage() {
     return (
         <div>
-            <SurveyComponent />
+            <MySurvey />
         </div>
     );
 }

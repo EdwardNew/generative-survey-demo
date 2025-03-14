@@ -3,10 +3,13 @@ import "survey-core/defaultV2.min.css";
 import { Model } from "survey-core";
 
 import { Survey } from "survey-react-ui";
+import { settings } from "survey-core";
 
-export default function SurveyComponent({ Scenario }) {
+settings.lazyRender.enabled = true;
+
+export default function HumanLLMSurvey({ SurveyScenario }) {
     const surveyJson = {
-        elements: Scenario.map((question) => {
+        elements: SurveyScenario.map((question) => {
             return { title: question, type: "comment" };
         }),
     };
