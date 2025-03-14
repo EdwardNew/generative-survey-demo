@@ -14,7 +14,14 @@ export async function POST(request) {
             messages: [
                 {
                     role: "user",
-                    content: `given this scenario ${question}, and this list of privacy concerns ${concerns}, list which privacy conerns are present in this response ${text} as a bulleted list. Cite the text snippet from the response related to this concern your list as well. The format should be [concern]: "[text snippet]" `,
+                    content: `Given this scenario: "${question}", and the following privacy concerns: ${concerns}, analyze this response: "${text}" and determine which privacy concerns are present in the response.  
+        
+        If the response does not provide sufficient detail or relevant content, return: "No privacy concerns identified due to insufficient information."  
+        
+        If privacy concerns are present, list them in the format:  
+        [Concern]: "[Relevant text snippet]"
+        
+        Do **not** infer concerns if there is no clear supporting evidence in the response.`,
                 },
             ],
             stream: true,
