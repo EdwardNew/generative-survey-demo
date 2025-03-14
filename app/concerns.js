@@ -1,0 +1,17 @@
+export const concerns = [
+    "Invasive monitoring",
+    "Violation of expectations",
+    "Lack of respect for autonomy",
+    "Lack of informed consent",
+    "Deceptive data practice",
+    "Lack of protection for vulnerable populations",
+    "Lack of alternative choice",
+    "Insufficient data security",
+    "Insufficient anonymization",
+    "Too high potential risks",
+    "Bias or discrimination",
+    "Lack of trust for algorithms",
+    "Lack of control of personal data",
+    "Data commodification",
+    "No privacy concern",
+];
